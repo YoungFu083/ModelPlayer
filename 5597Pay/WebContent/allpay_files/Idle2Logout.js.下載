@@ -1,0 +1,330 @@
+﻿/*
+Reference Idle.Js
+https://github.com/shawnmclean/Idle.js
+*/
+function Idle(options) {
+
+    var activity;
+
+    options = options || {};
+
+    this.awayTimeout = parseInt(options.awayTimeout, 10);
+    this.onAway = options.onAway;
+    this.onAwayBack = options.onAwayBack;
+    this.onVisible = options.onVisible;
+    this.onHidden = options.onHidden;
+
+    activity = this;
+    this.activeMethod = function () {
+        return activity.onActive();
+    };
+
+
+    this.visibilityChangeMethod = function () {
+        return activity.handleVisibilityChange();
+    };
+
+    if (typeof window.addEventListener != "undefined") {
+
+        window.addEventListener('click', this.activeMethod, false);
+        window.addEventListener('mousemove', this.activeMethod, false);
+        window.addEventListener('mouseenter', this.activeMethod, false);
+        window.addEventListener('keydown', this.activeMethod, false);
+        window.addEventListener('scroll', this.activeMethod, false);
+
+        document.addEventListener("visibilitychange", this.visibilityChangeMethod, false);
+    }
+    else {
+
+        window.attachEvent("onclick", this.activeMethod);
+        window.attachEvent("onmousemove", this.activeMethod);
+        window.attachEvent("onmouseenter", this.activeMethod);
+        window.attachEvent("onkeydown", this.activeMethod);
+        window.attachEvent("onscroll", this.activeMethod);
+
+        document.attachEvent("onvisibilitychange", this.visibilityChangeMethod);
+    }
+
+    this.startAwayTimeout();
+}
+
+Idle.prototype.handleVisibilityChange = function () {
+    if (document.hidden || document.msHidden || document.webkitHidden) {
+        if (this.onHidden) return this.onHidden();
+    } else {
+        if (this.onVisible) return this.onVisible();
+    }
+};
+
+Idle.prototype.onActive = function () {
+    this.activeTimestamp = new Date().getTime();
+    this.awayTimestamp = this.activeTimestamp + this.awayTimeout;
+    if (this.isAway) {
+        if (this.onAwayBack) this.onAwayBack();
+        this.startAwayTimeout();
+    }
+    this.isAway = false;
+    return true;
+};
+
+Idle.prototype.startAwayTimeout = function () {
+    var activity;
+    this.awayTimestamp = new Date().getTime() + this.awayTimeout;
+    if (this.awayTimer !== null) clearTimeout(this.awayTimer);
+    activity = this;
+    return this.awayTimer = setTimeout((function () {
+        return activity.checkAway();
+    }), this.awayTimeout + 100);
+};
+
+Idle.prototype.destroy = function () {
+
+    if (this.awayTimer !== null) clearTimeout(this.awayTimer);
+
+    if (typeof window.removeEventListener != "undefined") {
+
+        window.removeEventListener('click', this.activeMethod);
+        window.removeEventListener('mousemove', this.activeMethod);
+        window.removeEventListener('mouseenter', this.activeMethod);
+        window.removeEventListener('keydown', this.activeMethod);
+        window.removeEventListener('scroll', this.activeMethod);
+
+        document.removeEventListener("visibilitychange", this.visibilityChangeMethod);
+    } else {
+
+        window.detachEvent("onclick", this.activeMethod);
+        window.detachEvent("onmousemove", this.activeMethod);
+        window.detachEvent("onmouseenter", this.activeMethod);
+        window.detachEvent("onkeydown", this.activeMethod);
+        window.detachEvent("onscroll", this.activeMethod);
+
+        document.detachEvent("onvisibilitychange", this.visibilityChangeMethod);
+    }
+};
+
+Idle.prototype.setAwayTimeout = function (ms) {
+    this.awayTimeout = parseInt(ms, 10);
+    return this.startAwayTimeout();
+};
+
+Idle.prototype.checkAway = function () {
+    var activity, t;
+    t = new Date().getTime();
+    if (t < this.awayTimestamp) {
+        this.isAway = false;
+        activity = this;
+        this.awayTimer = setTimeout((function () {
+            return activity.checkAway();
+        }), this.awayTimestamp - t + 100);
+        return;
+    }
+    if (this.awayTimer !== null) clearTimeout(this.awayTimer);
+    this.isAway = true;
+    if (this.onAway) return this.onAway();
+};
+
+
+function IdlePop(options) {
+
+    options = options || {};
+
+    this.visible = !(document.hidden || document.msHidden || document.webkitHidden);
+
+    this.idle = null;
+    this.logoutTimer = null;
+
+    this.awayLogoutTimespan = null;
+
+    this.awayPopupTimeout = options.awayPopupTimeout || 0;
+    this.countdownTime = options.countdownTime || 0;
+
+    this.popup = options.popup;
+    this.refreshPopup = options.refreshPopup;
+    this.destroyPopup = options.destroyPopup;
+    this.cowndownEnd = options.cowndownEnd;
+
+    var idlePop = this;
+
+    this.CreateIdlePop = function (awayTimeout) {
+
+        this.idle = new Idle({
+
+            onHidden: function () {
+
+                idlePop.visible = false;
+
+                $.cookie('activeTimestamp', this.activeTimestamp);
+
+            },
+
+            onVisible: function () {
+
+                idlePop.visible = true;
+
+                if (!this.isAway) return;
+
+                var activeTimestamp = parseInt($.cookie('activeTimestamp'), 10);
+
+                var awayTime = new Date().getTime() - activeTimestamp;
+
+                if (awayTime >= idlePop.awayPopupTimeout + idlePop.countdownTime) {
+
+                    if (idlePop.cowndownEnd) idlePop.cowndownEnd();
+                }
+                else if (awayTime >= idlePop.awayPopupTimeout) {
+
+                    this.destroy();
+
+                    if (idlePop.popup) idlePop.popup();
+
+                    if (idlePop.countdownTime) idlePop.CreateCountdown(idlePop.awayPopupTimeout + idlePop.countdownTime - awayTime);
+
+                }
+            },
+
+            onAway: function () {
+
+                if (!idlePop.visible) return;
+
+                this.destroy();
+
+                if (idlePop.popup) idlePop.popup();
+
+                if (idlePop.countdownTime) idlePop.CreateCountdown(idlePop.countdownTime);
+
+            },
+
+            //onAwayBack: function () { },
+
+            awayTimeout: awayTimeout
+        });
+
+    };
+
+    this.CreateCountdown = function (countdownTime) {
+
+        var countdown = function () {
+
+            var now = new Date().getTime();
+
+            var timespan = idlePop.awayLogoutTimespan - now;
+
+            if (timespan < 0) timespan = 0;
+
+            if (idlePop.refreshPopup) idlePop.refreshPopup(timespan);
+
+            if (timespan) return;
+
+            clearInterval(idlePop.logoutTimer)
+
+            if (idlePop.cowndownEnd) idlePop.cowndownEnd();
+
+        };
+
+        this.awayLogoutTimespan = new Date().getTime() + countdownTime + 100;
+
+        this.logoutTimer = setInterval(countdown, 1000);
+
+        countdown();
+
+    };
+
+
+    this.AwayBack = function () {
+
+        clearInterval(this.logoutTimer);
+
+        if (this.destroyPopup) this.destroyPopup();
+
+        if (this.awayPopupTimeout) this.CreateIdlePop(this.awayPopupTimeout);
+
+    };
+
+    if (this.awayPopupTimeout) this.CreateIdlePop(this.awayPopupTimeout);
+}
+
+$(function () {
+
+    //allpay app not work
+    if (navigator.userAgent.toLowerCase().indexOf('allpay mobilepay') != -1) return;
+
+    if (!IdlePop.setting) {
+        alert('plz setting IdlePop');
+        return;
+    }
+
+    var idlePop = new IdlePop({
+
+        //idle time to show popup
+        awayPopupTimeout: IdlePop.setting.popupTimeout,
+
+        //idle time to logout after show popup
+        countdownTime: IdlePop.setting.countdownTime,
+
+        //create popup
+        popup: function () {
+
+            var html;
+            if (IdlePop.setting.isMobile)
+                html = '<div id="AwayPopup" class="dialog-Box popu-time-alert"><div class="popbox"><div class="pp-title"><img class="pp-icon-clock" src="' + IdlePop.setting.domain + '/Content/images/icon_clock.png"/><h3 class="pp-title-txt">貼心提醒</h3></div><div class="pp-content"><p>為保護您的帳戶安全，若超過10分鐘未進行任何動作，帳戶自動登出！</p><p class="pp-countdown">目前還剩 <span class="minute">Ｘ</span> 分 <span class="second">ＸＸ</span> 秒</p></div><div class="justify-bar"><a id="lnkAwayBack" href="#" class="btn blue-btn pp-btn">重新計時</a><a id="lnkAwayLogout" href="#" class="btn blue-btn pp-btn logout">我要登出</a></div></div></div><div id="AwayPopup_overlay" class="dialog-overlay overlay-bk"></div>';
+            else
+                html = '<div id="AwayPopup" class="dialog-Box popu-time-alert" style="z-index: 2147483643!important;"><div class="popbox"><div class="pp-title"><img class="pp-icon-clock" src="' + IdlePop.setting.domain + '/Content/images/icon_clock.png"/><h3 class="pp-title-txt">貼心提醒</h3></div><div class="pp-content"><p>為保護您的帳戶安全，若超過10分鐘<br/>未進行任何動作，帳戶自動登出！</p><p class="pp-countdown">目前還剩 <span class="minute">Ｘ</span> 分 <span class="second">ＸＸ</span> 秒</p></div><div class="justify-bar"><a id="lnkAwayBack" href="#" class="blue_button pp-btn">重新計時</a><a id="lnkAwayLogout" href="#" class="blue_button pp-btn logout">我要登出</a></div></div></div><div id="AwayPopup_overlay" class="dialog-overlay overlay-bk" style="z-index: 2147483642!important;"></div>';
+
+            if (IdlePop.setting.isTransaction) 
+                html = '<div id="AwayPopup" ><div  id="time-alert-popup" class="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-zoom-in mfp-ready" tabindex="-1" style="overflow-x: hidden; overflow-y: auto;z-index: 2147483643!important;"><div class="mfp-container mfp-s-ready mfp-inline-holder"><div class="mfp-content"><div id="time-alert-popup" class="time-alert-popup mg-popup mfp-with-anim"> <form> <div class="pp-container"> <div class="pp-title"> <img class="pp-icon-clock" src="' + IdlePop.setting.domain + '/Content/images/icon_clock.png"> <h3 class="pp-title-txt">貼心提醒</h3> </div><div class="pp-content"> <p>為保護您的帳戶安全，若超過10分鐘未使用歐付寶，則帳戶自動登出！</p><p class="pp-countdown">目前還剩 <span class="minute">Ｘ</span> 分 <span class="second">ＸＸ</span> 秒</p></div><div class="mp-btn-block"> <a href="#" id="lnkAwayBack" class="btn btn-blue">繼續使用</a> <a href="#" id="lnkAwayLogout" class="btn btn-gray">我要登出</a></div></div></div></form> <button title="Close (Esc)" type="button" class="mfp-close">×</button></div></div><div class="mfp-preloader">Loading...</div></div></div><div id="AwayPopup_overlay" class="dialog-overlay overlay-bk" style="z-index: 2147483642!important;"></div>';
+
+            $('body:first').append(html);
+
+            var idlePop = this;
+
+            $('#lnkAwayLogout').click(function () {
+                idlePop.cowndownEnd(true);
+                return false;
+            });
+
+
+            $('#lnkAwayBack').click(function () {
+                idlePop.AwayBack();
+                return false;
+            });
+
+        },
+
+        //refresh popup time text
+        refreshPopup: function (timespan) {
+
+            var minute = parseInt(timespan / 60000, 10);
+            timespan -= (minute * 60000);
+            var second = parseInt(timespan / 1000, 10);
+
+            minute = minute.toString();
+            second = second.toString();
+
+            if (minute.length == 1) minute = '0' + minute;
+            if (second.length == 1) second = '0' + second;
+
+            var $c = $('#AwayPopup');
+            $c.find('span.minute:first').text(minute);
+            $c.find('span.second:first').text(second);
+
+        },
+
+        //remove popup
+        destroyPopup: function () {
+
+            var $AwayPopup = $('#AwayPopup');
+            $AwayPopup.next().remove();
+            $AwayPopup.remove();
+            $AwayPopup = null;
+        },
+
+        //when popup cowndown end
+        cowndownEnd: function (manual) {
+
+            if (!manual) alert('您已登出歐付寶帳號，請重新登入！');
+            location.href = IdlePop.setting.logoutUrl;
+
+        }
+    });
+
+});

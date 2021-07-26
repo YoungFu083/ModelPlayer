@@ -1,0 +1,30 @@
+﻿/* Analytics Domain */
+var hostname = document.location.hostname;
+var domain = "auto";
+if (hostname.indexOf("opay") > 0) {
+    domain = "opay.tw";
+}
+else if (hostname.indexOf("allpay") > 0) {
+    domain = "allpay.com.tw";
+}
+/* Google Analytics */
+(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-41247606-1', domain);
+ga('require', 'displayfeatures');
+ga('send', 'pageview');
+///* Start Alexa Certify */
+//_atrk_opts = { atrk_acct: "kjNdm1aM91i27i", domain: domain, dynamic: true };
+//(function () {
+//    var as = document.createElement('script');
+//    as.type = 'text/javascript';
+//    as.async = true;
+//    as.src = "https://d31qbv1cthcecs.cloudfront.net/atrk.js";
+//    var s = document.getElementsByTagName('script')[0];
+//    s.parentNode.insertBefore(as, s);
+//})();

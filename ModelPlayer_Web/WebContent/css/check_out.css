@@ -1,0 +1,204 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: ‘cwTeXYen’, sans-serif;
+	/*http://www.flycan.com/article/css/google-fonts-webfont-2474.html#3_Google_fonts%EF%BC%9AcwTeXFangSong_(Chinese_Traditional)_%E4%BB%BF%E5%AE%8B%E9%AB%94%E5%AD%97%E9%AB%94*/
+}
+
+
+
+/***************************************/
+
+article{
+	display: block;
+	width: 80%;
+	margin: auto;
+	margin-top: 20px;
+}
+
+.panel_head{
+	width: 100%;
+	border: 1px solid #ddd;
+	background: #ddd;
+}
+
+.panel_head h3 ,.panel_head h5{
+	width: 100%;
+	padding: 5px 0px;
+	text-align: center;
+	background: #314559;
+	color: white;
+/* 	border: 1px solid #314559; */
+}
+
+.cart{
+	width: 100%;
+	border-collapse: collapse;
+	background: white;
+	border: 2px solid #314559;
+}
+
+.cart h2{
+	text-align: left;
+	padding: 3px;
+	background: #314559;
+}
+
+
+.cart th{
+/* 	background: #d4d;; */
+	padding: 10px;
+}
+
+.cart tr{
+/* 	background: #ddd; */
+	border-color: #ddd;
+}
+
+.cart td{
+	padding: 10px;
+	border-top: 2px solid #314559;
+	text-align: center;
+}
+
+.cartItem img{
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	margin-right: 5px;
+	
+}
+
+.cartItem td div{
+	display: inline-block;
+	text-align: left;
+	margin-right: 10px;
+	vertical-align: top;
+	margin-top: 6.5%;
+}
+
+.recipien lable{
+	width: 30%;
+	min-width:2.5em;
+}
+
+.recipien input{
+	width: 60%;
+}
+
+.amountInfo{
+	width: 40%;
+	display: block;
+	float: right;
+}
+
+.group{
+	width: 100%;
+	display: block;
+	margin-bottom: 10px; 
+	float: right;
+}	
+
+.rightSide{
+	float: right;
+}
+
+
+
+.left, .right{
+	display: block;
+	width: 49%;
+	margin:auto;
+	margin-bottom: 10px;
+	padding: 0px 5px;
+}
+
+.member_data, .receive_data,
+.order_note, .payment{
+	display: block;
+	width: 100%;
+	border: 2px solid #314559;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background: white;
+}
+
+
+.left{
+	float: left;
+}
+
+.right{
+	float: right;
+}
+
+.section_header{
+	background: #314559;
+	padding: 5px;
+	color: white;
+}
+
+.section_body{
+	display: block;
+	width: 96%;
+	margin: auto;
+	padding: 15px 0px;
+}
+
+.form_group{
+	display: block;
+	width: 100%;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+.form_group span, .form_group input{
+	width: 100%;
+	height: 36px;
+} 
+
+.form_group input{
+	padding: 6px 12px;
+	background: #fefefe;
+	border: 3px solid;
+}
+
+.form_group input[type="button"]{
+	background:  #db3d00;
+	color: white;
+}
+
+.form_group input[type="checkbox"]{
+	width: inherit;
+	height: inherit;
+}
+
+.member{
+	margin:auto;
+	margin-top: 5px;
+	padding:5px;
+	color: #44f;
+}
+
+.order_note textarea{
+	width: 100%;
+	padding: 10px;
+}
+
+input[type="submit"]{
+	width: 100%;
+	height: 40px;
+	margin-bottom: 20px;
+	background: #a52a2a ;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1em;
+}
+
+
+/****************************/
+
+

@@ -1,0 +1,97 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: ‘cwTeXYen’, sans-serif;
+	/*http://www.flycan.com/article/css/google-fonts-webfont-2474.html#3_Google_fonts%EF%BC%9AcwTeXFangSong_(Chinese_Traditional)_%E4%BB%BF%E5%AE%8B%E9%AB%94%E5%AD%97%E9%AB%94*/
+}
+
+/********************************/
+
+.formSignUp{
+	margin:auto;
+	display: block;
+	background: #FFE4B5;
+	width: 600px;
+	height: 600px;
+	border-color: #333;
+	border-bottom-style:solid;
+	border-radius: 10px;
+	box-shadow: 9px 13px 3px #333333;
+}
+
+.formSignUp form{
+	display: block;
+	width: 80%;
+	height: 88%;
+	background: #FFE4B5;
+	margin: auto;
+}
+
+.formSignUp form h1{
+	width: 100%;
+	background: #FFE4B5;
+	text-align: center;
+	color: #333;
+	height: 45px;
+	font-weight: 600;
+	font-size: 2em;
+}
+
+.formSignUp form span{
+	display:block; 
+	margin-top: 15px;
+	
+}
+
+.formSignUp form span label{
+	display:inline-block;
+/* 	min-width: 4em; */
+	font-size: 1.5em;
+	min-width: 5em;
+	text-align: right;
+	margin-right: 5px;
+}
+
+.formSignUp form input{
+	height: 30px;
+	font-size:16px;
+	vertical-align: bottom;
+	background: #FFE4B5;
+	outline:none;
+	border-style: none;
+	border-bottom-style: dashed;
+}
+
+.genderSpan input[type="radio"]{
+	margin-left: 20px;
+}
+
+.submitBnt{
+	display:inline-block;
+}
+
+.formSignUp form input[type="submit"]{
+	border-style: solid;
+	width: 50%;
+	margin-left: 25%;
+	margin-top: 0px;
+	cursor: pointer;
+	background: #ff0;
+}
+.checkbox{
+	display: block;
+	width: 50%;
+	margin: auto;
+	font-size: 18px;
+}
+
+span input[type="checkbox"]{
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+	vertical-align:top;
+}
+

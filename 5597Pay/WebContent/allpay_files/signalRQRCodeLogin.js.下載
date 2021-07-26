@@ -1,0 +1,98 @@
+﻿var _mode = 0;
+var _arrAjax = [];
+
+String.prototype.isEmpty = function () {
+    return (this.length === 0 || !this.trim());
+};
+
+function signalRPayment(url, actionUrl, nextURL, failUrl, mode, merchantID, tradeAmt, allpayTradeID) {
+    _mode = mode.isEmpty() ? 0 : parseInt(mode);
+
+    var conn = null;
+    var autoSubmit = function (d) {
+        var msg = $('#scan-qrcode-popup');
+
+        if (!d.isEmpty()) {
+            var form = '<form action="' + actionUrl + '" method="POST" style="display: none;"><input id="d" name="d" type="hidden" value="' + d + '"><input id="NextURL" name="NextURL" type="hidden" value="' + nextURL + '"><input id="FailUrl" name="FailUrl" type="hidden" value="' + failUrl + '"></form>';
+
+            msg.find('.scan_sucess').fadeIn(500, function () {
+                $('#scan-qrcode-popup').append(form).find('form:first').submit();
+            });
+        } 
+//        else {
+//            msg.find('.rescan').fadeIn(500, function () {
+//                $('#scan-qrcode-popup').find('form:first').remove();
+//                msg.find('.rescan').fadeOut();
+
+//                if (_mode == 0) {
+//                    proxy.invoke('GetQRCodeText'
+//                                    , merchantID, tradeAmt, allpayTradeID
+//                    );
+//                } 
+//            });
+//        }
+    }
+
+    if (_mode == 0) {
+        conn = $.hubConnection(url);
+        type_Signal(url, autoSubmit, conn, merchantID, tradeAmt, allpayTradeID);
+    }
+
+    //檢查使用者是否已離開QRCode登入
+    var timer = setInterval(function () {
+        if (!_runQRCodeLogin) {
+            if (_mode == 0) {
+                conn.stop();
+            }
+
+            showQRCode(null);
+            clearInterval(timer);
+        }
+    }, 1000);
+}
+
+function type_Signal(url, autoSubmit, conn, merchantID, tradeAmt, allpayTradeID) {
+    var proxy = conn.createHubProxy('myNotifyHub');
+    
+    proxy.on('AutoSubmit', autoSubmit);
+
+    proxy.on('ShowQRCode', showQRCode);
+
+    conn.start().done(function () {
+        proxy.invoke('GetQRCodeText'
+                        , merchantID, tradeAmt, allpayTradeID
+        );
+    }).fail(function (error) {
+        console.log('Invocation of start failed. Error:' + error)
+    });
+
+    conn.disconnected(function () {        
+        setTimeout(function () {
+            conn = $.hubConnection(url);
+            type_Signal(url, autoSubmit, conn, merchantID, tradeAmt, allpayTradeID);
+        }, 500); // Restart connection after 5 seconds.
+    });
+}
+
+function showQRCode(result) {
+    if (result == null || result == '') {
+        //$('.imgQRCode').attr('src', '');
+    } else {
+        //$('.imgQRCode').attr('src', '//chart.apis.google.com/chart?cht=qr&chs=165x165&chl=' + result + '&chld=H|0');
+        $('#imgQRCode').val(result);
+
+        createQrcodeImg('output', 'outputimg', result, 'imgQRCode');
+        createQrcodeImg('outputapp', 'outputimgapp', result, 'lq-pic');
+    }
+}
+
+function createQrcodeImg(objOutputId, objOutputImgId, qrcode, imgCls) {
+    $('#' + objOutputId).qrcode(qrcode);
+
+    var canvas = $('#' + objOutputId + ' canvas');
+    var img = canvas.get(0).toDataURL("image/png");
+    //or
+    //var img = $(canvas)[0].toDataURL("image/png");
+    $('#' + objOutputImgId).html('<img class="' + imgCls + '" src="' + img + '"/>');
+}
+

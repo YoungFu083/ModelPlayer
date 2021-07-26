@@ -1,0 +1,77 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: ‘cwTeXYen’, sans-serif;
+	/*http://www.flycan.com/article/css/google-fonts-webfont-2474.html#3_Google_fonts%EF%BC%9AcwTeXFangSong_(Chinese_Traditional)_%E4%BB%BF%E5%AE%8B%E9%AB%94%E5%AD%97%E9%AB%94*/
+}
+
+/****************************/
+
+article{
+	display: block;
+	min-height: 60vh;
+	width: 100%;
+}
+
+#orderDetail{
+	display: block;
+	margin: auto;
+	margin-top: 50px;
+	
+}
+
+#orderDetail .customer{
+	margin: auto;
+	background: #f5f5dc;
+	border-collapse: collapse;
+}
+
+.customer, .product{
+	min-width: 750px;
+	border: 2px solid;
+}
+
+#orderDetail .customer caption{
+	padding: 10px;
+	background: #1ca7aa;
+	color: white;
+	
+}
+
+.customer tr td{
+	padding: 12px 4px;
+/* 	text-align: left; */
+	border-bottom: 1px solid;
+}
+
+.customer tr:nth-child(even){
+	background: white;
+}
+
+.customer tr td:nth-child(odd){
+	text-align: right;
+	font-weight: 600;
+}
+
+.product{
+	margin: auto;
+	background: #f5f5dc;
+	border-collapse: collapse;
+}
+
+.product th{
+	padding: 15px 0px;
+	background:  #314559;
+	color: white;
+}
+
+.product td{
+	padding: 8px;
+	text-align: center;
+	border-bottom: 2px solid;
+	border-right: 1px dashed; 
+}
+/****************************/

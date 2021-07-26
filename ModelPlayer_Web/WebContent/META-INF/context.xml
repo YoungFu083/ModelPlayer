@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true">
+    <Resource
+        auth="Container"
+        name="jdbc/mpr"
+        type="javax.sql.DataSource"
+        driverClassName="com.mysql.cj.jdbc.Driver"
+        url="jdbc:mysql://localhost:3306/mplayer?zeroDateTimeBehavior=convertToNull&amp;characterEncoding=utf8"
+        username="root"
+        password="1234"
+        maxIdle="2"
+        maxWaitMillis="-1"
+        factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"
+        maxTotal="10"/>
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+</Context>

@@ -1,0 +1,245 @@
+$(function () {
+    //手機觸控事件
+    var touchevent = function () { $(this).addClass('on-touch'); };
+    var touchevent2 = function () { $(this).removeClass('on-touch'); };
+    $('a,div,button,li')
+    .on('touchstart mouseenter click', touchevent)
+    .on('touchend mouseleave click', touchevent2);
+
+
+    //往上的按鈕
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 150) {
+            $('.scrollToTop').addClass('visible');
+        } else {
+            $('.scrollToTop').removeClass('visible');
+        }
+    });
+    //Click event to scroll to top
+    $('.scrollToTop').click(function () {
+        $('html, body').animate({ scrollTop: 0 }, 1000);
+        return false;
+    });
+
+
+    //tab   
+    var tabs_n = $('.pay-tab-list li');
+    for (var i = 0; i < tabs_n.length; i++) {
+        var id = tabs_n.eq(i).attr('id');
+        tabs_n.eq(i).data('tab', '.pay-tab-' + id);
+        var tab_first = tabs_n.eq(0).addClass('active');
+        $(tab_first.data('tab')).siblings('.pay-tab-' + id).hide();
+    }
+    tabs_n.click(function () {
+        for (var i = 0; i < tabs_n.length; i++) {
+            var dataTab = $(this).data('tab');
+            $(this).addClass('active').siblings('.active').removeClass('active');
+            $(dataTab).stop(false, true).fadeIn(600).siblings().hide();
+            return false;
+        }
+    });
+
+    //標籤選單控制
+    $('.pt-menu-btn').click(function () {
+        $(".pay-tab-list").toggleClass('pt-height');
+    });
+    if ($(window).width() <= 768) {
+        $('.pay-tab-list li').click(function () {
+            $(".pay-tab-list").removeClass('pt-height');
+        });
+    }
+    $('.pay-tab-list li').click(function () {
+        var payWay = $(this).text();
+        $('.pt-menu-btn').html(payWay);
+    });
+    $(window).resize(function (event) {
+        if ($(window).width() <= 768) {
+            $('.pay-tab-list li').click(function () {
+                $(".pay-tab-list").removeClass('pt-height');
+            });
+        } else if ($(window).width() > 768) {
+            $(".pay-tab-list").removeClass('pt-height');
+        }
+    });
+
+    //浮動側邊攔
+    var sideMenuFloat = $('.app-link-pc,.alp-close').offset();
+    //var sideMenuFloat2 = $('.app-link-pc,.alp-close').html();
+    $(window).load(function () {
+        if (sideMenuFloat != null) {
+            sideMenuFloat.top = 150;
+            $('.app-link-pc,.alp-close').css("top", sideMenuFloat.top + $(this).scrollTop() + "px")
+        }
+    });
+
+    function moveSideMenu() {
+        if (sideMenuFloat != null) {
+            var sideMenuOffset = sideMenuFloat.top + $(this).scrollTop() + "px";
+            if ($(window).width() > 768) {
+                $('.app-link-pc,.alp-close').animate({
+                    top: sideMenuOffset
+                }, {
+                    duration: 20,
+                    queue: false
+                });
+            }
+        }
+    }
+    $(window).scroll(moveSideMenu);
+    moveSideMenu();
+
+    $('.alp-close').on('click', function (event) {
+        $(this).find('.icon-shrink2').toggleClass('icon-enlarge2');
+        $('.app-link-pc').toggleClass('alp-hidden');
+    });
+
+    //popup
+    $('.open-popup-link').magnificPopup({
+        type: 'inline',
+        midClick: true,
+        closeBtnInside: true,
+        fixedContentPos: true,
+        mainClass: 'mfp-with-anim',
+        removalDelay: 500,
+        closeOnBgClick: false,
+        callbacks: {
+            beforeOpen: function () {
+                this.st.mainClass = this.st.el.attr('data-effect');
+            }
+        }
+    });
+    $('.popup-close').click(function () {
+        $.magnificPopup.close();
+    });
+
+    //提示泡泡
+    //    var bsSelect = $('.ptf-bs select');
+    //    bsSelect.on('focus', function () {
+    //        $('.bs-tip-popup').fadeIn(300);
+    //    });
+    //    bsSelect.on('blur', function () {
+    //        $('.bs-tip-popup').fadeOut(300);
+    //    });
+    //    bsSelect.on('change', function () {
+    //        $(this).blur();
+    //    });
+    $('.call-bank-pp').on('focus', function () {
+        $(this).siblings('.bank-tip-popup').fadeIn(300);
+    });
+    $('.call-bank-pp').on('blur', function () {
+        $(this).siblings('.bank-tip-popup').fadeOut(300);
+    });
+    $('input').on('focus', function () {
+        $(this).siblings('.form-tip-popup').fadeIn(300);
+    });
+    $('input').on('blur', function () {
+        $(this).siblings('.form-tip-popup').fadeOut(300);
+    });
+
+    //ajax
+    $('.m-rgs-rule').load('ajax/member_rights.html');
+
+    //會員功能切換示意
+    $(".member-pay-wrap").hide();
+    $(".call-member-pay").click(function (event) {
+        event.preventDefault();
+        $(".member-check-wrap").slideUp();
+        $(".member-pay-wrap").slideDown();
+    });
+
+    // 信用卡 核取
+    //$('#CreditBinding').prop("checked", true)
+    $("#CreditBinding").click(function () {
+        $('.btn').toggleClass('btn-gray');
+    });
+
+    // 信用卡付款注意事項
+    $('.pt-slide-title').on('click', function () {
+        $(this).toggleClass('pst-active');
+        $('.pt-slide-list').slideToggle(200);
+    });
+    $(window).resize(function () {
+        if (window.innerWidth > 568) {
+            $('.pt-slide-list').show();
+        } else {
+            $('.pt-slide-list').hide();
+            $('.pt-slide-title').removeClass('pst-active');
+        }
+    });
+
+    //使用行動支付區塊
+    //遮罩
+    function openOverlay(){
+        $('.white-overlay').fadeIn(300);
+        $('body').css('overflow', 'hidden');
+        return false;
+    }
+    function closeOverlay(){
+        $('.white-overlay').fadeOut(300);
+        $('body').css('overflow', 'auto');
+        return false;
+    }
+
+    //區塊控制
+    $('.opb-header').on('click', function(){
+        $(this).parents('.pml-mobile-box').addClass('pmb-active');
+        $('.obh-slogan').addClass('obs-active');
+        openOverlay()
+    });
+    $('.opb-close').on('click', function(){
+        $(this).parents('.pml-mobile-box').removeClass('pmb-active');
+        $('.obh-slogan').removeClass('obs-active');
+        $('.footer').addClass('footer-active');
+        closeOverlay()
+        $(window).bind('scroll',function(){
+            wScroll();
+        });
+    });
+    $(window).resize(function() {
+        $('.pml-mobile-box').removeClass('pmb-active');
+        $('.obh-slogan').removeClass('obs-active');
+        $('.footer').addClass('footer-active');
+        closeOverlay();
+        scrollLock = true;
+
+        if($(window).width() > 768){
+            $('.opf-act').hide();
+        } else if($(window).width() <= 768 && $('.pml-mobile-box').hasClass('pmb-close')){
+            $('.opf-act').show();
+        }
+    });
+
+    //付款小圖控制
+    $('.opaypay-float').on('click', function() {
+        $(this).siblings('.pml-mobile-box').removeClass('pmb-close').addClass('pmb-active');
+        $('.obh-slogan').addClass('obs-active');
+        $(this).fadeOut(300);
+        openOverlay()
+    });
+
+    //滾動控制
+    function wScroll(e){
+        let winTop = $(window).scrollTop();
+        let mpayTop = $('.member-pay').offset().top;
+        //let winHeight = $(window).height() - ;
+
+        if (winTop >= mpayTop - 500) {
+            $('.pml-mobile-box').removeClass('pmb-close');
+            $('.footer').addClass('footer-active');
+        } else {
+            $('.pml-mobile-box').addClass('pmb-close');
+            $('.opaypay-float').fadeOut(300).removeClass('opf-act');
+        }
+
+
+        if (!$('.pml-mobile-box').hasClass('pmb-close')) {
+            $('.opaypay-float').fadeOut(300).removeClass('opf-act');
+        }
+    }
+
+    $(window).scroll(function(){
+        wScroll();
+    });
+});
+
+

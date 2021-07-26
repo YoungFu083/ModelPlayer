@@ -1,0 +1,93 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: ‘cwTeXYen’, sans-serif;
+	/*http://www.flycan.com/article/css/google-fonts-webfont-2474.html#3_Google_fonts%EF%BC%9AcwTeXFangSong_(Chinese_Traditional)_%E4%BB%BF%E5%AE%8B%E9%AB%94%E5%AD%97%E9%AB%94*/
+}
+
+
+/*		article		*/
+
+article{
+	display: block;
+	min-height: 60vh;
+}
+
+.formLogin{
+	margin:auto;
+	padding-top:50px;
+	display: block;
+/* 	background: #FFE4B5; */
+	width: 400px;
+	height: 70vh;
+	
+	
+}
+
+.formLogin form{
+	display: block;
+	width: 80%;
+	height: 400px;
+	background: #FFE4B5;
+	margin: auto;
+	border-color: #333;
+	border-bottom-style:solid;
+	border-radius: 10px;
+	box-shadow: 9px 13px 3px #333333;
+}
+
+.formLogin form h1{
+	width: 100%;
+	background: #FFE4B5;
+	text-align: center;
+	color: #333;
+	height: 45px;
+	font-weight: 600;
+	font-size: 2em;
+	border-radius: 10px
+}
+
+.formLogin form span{
+	display:block; 
+	margin-top: 40px;
+	
+}
+
+.formLogin form span label{
+	display:inline-block;
+/* 	min-width: 4em; */
+	font-size: 1.5em;
+}
+
+
+.formLogin form input{
+	height: 30px;
+	font-size:16px;
+	vertical-align: bottom;
+	background: #FFE4B5;
+	outline:none;
+	border-style: none;
+	border-bottom-style: dashed;
+}
+
+.formLogin form input[type="submit"]{
+	border-style: solid;
+	width: 50%;
+	margin-left: 25%;
+	margin-top: 0px;
+	cursor: pointer;
+}
+
+.formLogin form input[type="button"]{
+	border-style: dashed;
+	width: 70px;
+	font-size: 8px;
+	background: #ccc;
+	cursor: pointer;
+}
+
+/****************************/
+

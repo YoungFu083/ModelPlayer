@@ -1,0 +1,113 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: ‘cwTeXYen’, sans-serif;
+	/*http://www.flycan.com/article/css/google-fonts-webfont-2474.html#3_Google_fonts%EF%BC%9AcwTeXFangSong_(Chinese_Traditional)_%E4%BB%BF%E5%AE%8B%E9%AB%94%E5%AD%97%E9%AB%94*/
+}
+
+/****************************/
+
+article{
+	display: block;
+	margin: auto;
+	width: 77%;
+	min-height: 60vh; 
+}
+
+.productBox{
+	display: block;
+	padding:10px;
+	width: 98%;
+	height: 710px;
+/* 	border: 5px solid; */
+}
+
+.productImg{
+	display: flex;
+	width: 100%;
+}
+.productImg img{
+	width: 480px;
+	height: 700px;
+	padding: 10px;
+}
+
+.product{
+	display: flex;
+	flex-direction:column;
+	width: 65%;
+}
+
+.product h2{
+	width: 100%;
+}
+
+.product h3{
+	font-size: 2em;
+	color: #f55;
+	width: 100%;
+	text-align: right;
+}
+
+.productInfo{
+	height: 70%;
+	padding: 10px;
+}
+
+.preOrder{
+	display: block;
+	border: 1px solid #4d4;
+	
+}
+
+.preOrder span{
+	display:block;
+	background: #4d4;
+	color: #fff;
+	text-align: center;
+	width: 100%;
+}
+
+.preOrder p{
+	display:block;
+	width: 100%;
+	text-align: center;
+}
+
+.product form input{
+	width: 90%;
+	height: 40px;
+	margin: 5px;
+	text-align: center;
+}
+
+.product form select , option{
+	width: 30%;
+	height: 25px;
+	text-align: center;
+}
+
+.product form span {
+	width: 30%;
+	display: inline-block;
+	text-align: center;
+	font-size: 1.2em;
+}
+
+.product form input[type="submit"]{
+	cursor: pointer;
+	font-size: 1.5em;
+	background: #333;
+	color: #fff;
+}
+
+.product form input[type="checkbox"]{
+	width: 5%;
+	height: 15px;
+	margin: 0px 0px 0px 10%;
+}
+
+/****************************/

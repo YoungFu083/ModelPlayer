@@ -1,0 +1,129 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: ‘cwTeXYen’, sans-serif;
+	/*http://www.flycan.com/article/css/google-fonts-webfont-2474.html#3_Google_fonts%EF%BC%9AcwTeXFangSong_(Chinese_Traditional)_%E4%BB%BF%E5%AE%8B%E9%AB%94%E5%AD%97%E9%AB%94*/
+}
+
+/****************************/
+
+article{
+	margin: 0px;
+	padding: 0px;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: white;
+}
+
+.slider{
+	width: 1200px;
+	height: 750px;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.slides{
+	width: 500%;
+	height: 500px;
+	display: flex;
+}
+
+.slides input{
+	display: none;
+}
+
+.slide{
+	width: 20%;
+	transition: 2s;
+}
+
+.slide img{
+	width: 1200px;
+	height: 750px;
+}
+
+/*css for maunal slide navigation*/
+
+.navigation-manual{
+	position: absolute;
+	width: 1200px;
+	margin-top: 210px;
+	display: flex;
+	justify-content: center;
+}
+
+.manual-btn{
+	border: 2px solid white;
+	padding: 5px;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: 1s; 
+	
+}
+
+.manual-btn:not(:last-child){
+	margin-right: 40px;
+}
+
+.manual-btn:hover {
+	background: white;
+}
+
+#radio1:checked ~ .first{
+	margin-left: 0;
+	
+}
+
+#radio2:checked ~ .first{
+	margin-left: -20%;
+	
+}
+
+#radio3:checked ~ .first{
+	margin-left: -40%;
+	
+}
+
+#radio4:checked ~ .first{
+	margin-left: -60%;
+	
+}
+
+/*css for automatic navigation*/
+
+.navigation-auto{
+	position: absolute;
+	display: flex;
+	width: 1200px;
+	justify-content: center;
+	margin-top: 710px;
+}
+
+.navigation-auto div{
+	border: 2px solid white;
+	padding: 5px;
+	border-radius: 10px;
+	transition: 1s;
+}
+
+.navigation-auto div:not(:last-child){
+	margin-right: 40px;
+}
+
+#radio1:checked ~ .navigation-auto .auto-btn1 {
+	background: white;
+}
+#radio2:checked ~ .navigation-auto .auto-btn2 {
+	background: white;
+}
+#radio3:checked ~ .navigation-auto .auto-btn3 {
+	background: white;
+}
+#radio4:checked ~ .navigation-auto .auto-btn4 {
+	background: white;
+}

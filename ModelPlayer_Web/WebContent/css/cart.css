@@ -1,0 +1,161 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: ‘cwTeXYen’, sans-serif;
+	/*http://www.flycan.com/article/css/google-fonts-webfont-2474.html#3_Google_fonts%EF%BC%9AcwTeXFangSong_(Chinese_Traditional)_%E4%BB%BF%E5%AE%8B%E9%AB%94%E5%AD%97%E9%AB%94*/
+}
+
+/****************************/
+
+article{
+	display: block;
+	width: 80%;
+	min-height:60vh;
+	margin: auto;
+	margin-top: 20px;
+}
+
+.cart{
+	width: 100%;
+	border-collapse: collapse;
+	background: white;
+	border: 1px solid #314559;
+}
+
+.cart h2{
+	text-align: left;
+	padding: 3px;
+}
+
+
+.cart th{
+	background: #314559;
+	padding: 10px;
+	color: white;
+}
+
+.cart tr{
+/* 	background: #ddd; */
+	border-color: #ddd;
+}
+
+.cart td{
+	padding: 10px;
+	border-top: 1px solid #314559;
+	text-align: center;
+}
+
+.cartItem img{
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	margin-right: 5px;
+	
+}
+
+.cartItem td div{
+	display: inline-block;
+	text-align: left;
+	margin-right: 10px;
+	vertical-align: top;
+	margin-top: 6.5%;
+}
+
+#updateCart{
+	height: 32px;
+	width: 160px;
+	color: white;
+	background: black;
+	font-size: 1em;
+}
+
+#deleteItem{
+	width: 30px;
+	height: 30px;
+}
+
+/********************************/
+
+.shippingAndPayment{
+	display:inline-block;
+	width: 63%;
+	border: 1px solid #314559;
+	margin-top: 20px;
+	margin-right: 5px;
+	background: white;
+}
+
+.shippingAndPayment span{
+	font-size: 1em;
+}
+
+.group{
+	width: 95%;
+	display: block;
+	margin: auto;
+	margin-bottom: 5px;
+}
+
+#sShipping, #sPayment{
+	background: #dedede;
+}
+
+.sectionBody{
+	padding: 15px 0px;
+	margin: auto;
+	width: 98%;
+}
+
+.group select{
+	width: 100%;
+	height: 35px;
+	margin: 5px 0px;
+}
+
+.amountInfo{
+	display:inline-block;
+	width: 35%;
+	border: 1px solid #314559;
+	margin-top: 20px;
+	margin-left: 5px;
+	background: white;
+	
+}
+
+.subTotil, .fee, .total{
+	display: block;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.total{
+	margin-top: 5px; 
+}
+
+.rightSide{
+	float: right;
+}
+
+.h3{
+	background: #314559;
+	padding: 5px;
+	color: white;
+}
+
+.amountInfo input{
+	width: 100%;
+	height: 38px;
+	background: #a52a2a;
+	border-color:#333;
+	outline: none;
+	cursor: pointer;
+	font-size: 1em;
+	color: #fff;
+}
+
+/****************************/
+
+
